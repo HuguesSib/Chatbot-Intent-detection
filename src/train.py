@@ -1,9 +1,11 @@
 import torch
 import torch.nn as nn
-from transformers import BertModel
+from transformers import BertModel, AutoTokenizer
 from torch.utils.data import DataLoader
 from sklearn.metrics import accuracy_score, classification_report
-
+from src.dataset import BertDataset, CLNIC150, CLASSES_OF_INTEREST
+from src.models import BERTClassifier
+from src.init import Options
 import matplotlib.pyplot as plt
 
 def train(model, train_dataset, val_dataset, device, 
@@ -112,3 +114,40 @@ def train(model, train_dataset, val_dataset, device,
         plt.xlabel('Epochs')
         plt.ylabel('Accuracy')
         plt.legend()
+
+        plt.show()
+
+def pipeline(path_to_json, model_name, num_classes, batch_size, epochs,
+            lr, patience):
+    
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(f'Using device: {device}')
+
+    clinc_train = CLNIC150(path_to_json, set= 'train')
+    x_train, y_train = clinc_train._get_classes_of_interest(classes_of_interest= CLASSES_OF_INTEREST)
+
+    clinc_val = CLNIC150(path_to_json, set= 'val')
+    x_val, y_val = clinc_val._get_classes_of_interest(classes_of_interest= CLASSES_OF_INTEREST)
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+    train_dataset = BertDataset(x_train, y_train, tokenizer, max_length= 128)
+    val_dataset = BertDataset(x_val, y_val, tokenizer, max_length= 128)
+
+    model = BERTClassifier(model_name, num_classes= num_classes).to(device)
+
+    train(model,
+        train_dataset, val_dataset, device,
+        batch_size, epochs, lr, patience)
+    
+
+if __name__ == "__main__":
+    opt = Options().parse()
+
+    pipeline(opt.json_path, 
+            opt.model_name, 
+            opt.num_classes, 
+            opt.batch_size, 
+            opt.epochs, 
+            opt.lr, 
+            opt.patience)

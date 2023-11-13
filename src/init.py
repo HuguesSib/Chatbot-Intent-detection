@@ -28,6 +28,28 @@ class Options():
                             help="Number of classes to classify",
                             default= 9)
         
+        #Initialize argument for training
+        parser.add_argument("--json_path", type=str,
+                            help="Path to the json file to train the model on",
+                            default= 'data/data-full.json')
+        
+        parser.add_argument("--batch_size", type=int,
+                            help="Batch size",
+                            default= 32)
+        
+        parser.add_argument("--epochs", type=int,
+                            help="Number of epochs",
+                            default= 200)
+        
+        parser.add_argument("--lr", type=float,
+                            help="Learning rate",
+                            default= 2e-4)
+        
+        parser.add_argument("--patience", type=int,
+                            help="Patience for early stopping",
+                            default= 30)
+        
+
         self.initialized = True
         return parser
     
