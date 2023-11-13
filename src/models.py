@@ -1,5 +1,5 @@
 from torch import nn
-from transformers import BertTokenizer, BertModel
+from transformers import BertModel
 
 class BERTClassifier(nn.Module):
     def __init__(self, bert_model_name, num_classes, freeze_bert = True):
@@ -12,6 +12,7 @@ class BERTClassifier(nn.Module):
         if freeze_bert:
             for p in self.bert.parameters():
                 p.requires_grad = False
+        
     
     def forward(self, input_ids, attention_mask):
         output = self.bert(input_ids, attention_mask=attention_mask)
