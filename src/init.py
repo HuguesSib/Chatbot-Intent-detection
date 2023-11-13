@@ -31,7 +31,7 @@ class Options():
         #Initialize argument for training
         parser.add_argument("--json_path", type=str,
                             help="Path to the json file to train the model on",
-                            default= 'data/data-full.json')
+                            default= 'data/data_full.json')
         
         parser.add_argument("--batch_size", type=int,
                             help="Batch size",
@@ -39,7 +39,7 @@ class Options():
         
         parser.add_argument("--epochs", type=int,
                             help="Number of epochs",
-                            default= 200)
+                            default= 1)
         
         parser.add_argument("--lr", type=float,
                             help="Learning rate",
