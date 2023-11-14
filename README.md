@@ -31,8 +31,8 @@ This set of prompts is too small to train a model on. A common dataset for inten
 
 Some things are still to be considered: 
   - CLINC150 contains 150 in-scope intents, but we only consider 8. The others need to be classified as out-of-scope.
-  - CLINC150 is in English, therefore a translation on-the-fly is chosen to be able to prompt in French and in any other language.
-  - For evaluation the class _lost_luggage_
+  - CLINC150 is in English, therefore a translation on the fly is chosen to be able to prompt in French and any other language.
+  - For evaluation, the class _lost_luggage_ needs to have a low number of False Positive (High Precision). 
     
 # Instructions 
 
