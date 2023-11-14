@@ -31,6 +31,20 @@ Some things are still to be considered:
     
 # Instructions 
 ## Requirements
+
+<pre>
+python==3.7.1
+argparse==1.4.0
+transformers==4.30.2
+torch==1.13.1
+pandas==1.3.5
+json==2.0.9
+sklearn==0.0
+matplotlib==3.0.2
+googletrans==3.1.0a0
+langdetect==1.0.9
+</pre>
+
 ## Architecture 
 <pre>
 Chatbot-Intent-detection/
