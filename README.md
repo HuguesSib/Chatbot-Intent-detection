@@ -104,13 +104,90 @@ python train.py --epochs 50 --batch_size 32 --lr 2e-4
 
 # Results
 ## Comparison of different pre-trained BERT model on the CLINC dataset
+Here is an over view of the results from the different pretrained model.
 
-| Model Name | Precision | Recall | 
-| -------- | -------- | -------- |
-| Row 1, Column 1 | Row 1, Column 2 | Row 1, Column 3 |
-| Row 2, Column 1 | Row 2, Column 2 | Row 2, Column 3 |
-| Row 3, Column 1 | Row 3, Column 2 | Row 3, Column 3 |
+| Model Name                              | Avg Precision | Avg Recall | Avg F1-Score | Precision on Lost Luggage | Inference Time (s) |
+|-----------------------------------------|---------------|------------|--------------|---------------------------|---------------------|
+| bert-base-uncased-finetuned-clinc       | 0.96          | 0.96       | 0.96         | 0.88                      | 0.3706              |
+| roberta-large-finetuned-clinc           | 0.95          | 0.95       | 0.95         | 1.00                      | 1.2057              |
+| distilbert-base-uncased-distilled-clinc | 0.96          | 0.96       | 0.96         | 0.88                      | 0.1693              |
+
+And below are the details of the classification report for each model. 
+
+### transformersbook/bert-base-uncased-finetuned-clinc
+
+| Intent             | Precision | Recall | F1-Score | Support |
+|--------------------|-----------|--------|----------|---------|
+| book_flight        | 1.00      | 1.00   | 1.00     | 6       |
+| book_hotel         | 1.00      | 1.00   | 1.00     | 7       |
+| carry_on           | 1.00      | 0.88   | 0.93     | 8       |
+| flight_status      | 1.00      | 1.00   | 1.00     | 6       |
+| lost_luggage       | 0.88      | 1.00   | 0.93     | 7       |
+| out_of_scope       | 0.91      | 1.00   | 0.95     | 21      |
+| translate          | 1.00      | 0.86   | 0.92     | 7       |
+| travel_alert       | 1.00      | 1.00   | 1.00     | 5       |
+| travel_suggestion  | 1.00      | 0.88   | 0.93     | 8       |
+| **Micro Avg**      | **0.96**  | **0.96**| **0.96** | **75**  |
+| **Macro Avg**      | **0.98**  | **0.96**| **0.96** | **75**  |
+| **Weighted Avg**   | **0.96**  | **0.96**| **0.96** | **75**  |
+
+Average inference time: 0.3706 seconds.
+
+### lewtun/roberta-large-finetuned-clinc
+
+| Intent             | Precision | Recall | F1-Score | Support |
+|--------------------|-----------|--------|----------|---------|
+| book_flight        | 1.00      | 1.00   | 1.00     | 6       |
+| book_hotel         | 1.00      | 1.00   | 1.00     | 7       |
+| carry_on           | 1.00      | 0.88   | 0.93     | 8       |
+| flight_status      | 0.86      | 1.00   | 0.92     | 6       |
+| lost_luggage       | 1.00      | 1.00   | 1.00     | 7       |
+| out_of_scope       | 0.91      | 0.95   | 0.93     | 21      |
+| translate          | 1.00      | 1.00   | 1.00     | 7       |
+| travel_alert       | 0.83      | 1.00   | 0.91     | 5       |
+| travel_suggestion  | 1.00      | 0.75   | 0.86     | 8       |
+| **Micro Avg**      | **0.95**  | **0.95**| **0.95** | **75**  |
+| **Macro Avg**      | **0.96**  | **0.95**| **0.95** | **75**  |
+| **Weighted Avg**   | **0.95**  | **0.95**| **0.95** | **75**  |
+
+Average inference time: 1.2057 seconds.
+
+### transformersbook/distilbert-base-uncased-distilled-clinc
+
+| Intent             | Precision | Recall | F1-Score | Support |
+|--------------------|-----------|--------|----------|---------|
+| book_flight        | 1.00      | 1.00   | 1.00     | 6       |
+| book_hotel         | 1.00      | 1.00   | 1.00     | 7       |
+| carry_on           | 1.00      | 0.88   | 0.93     | 8       |
+| flight_status      | 1.00      | 1.00   | 1.00     | 6       |
+| lost_luggage       | 0.88      | 1.00   | 0.93     | 7       |
+| out_of_scope       | 0.91      | 1.00   | 0.95     | 21      |
+| translate          | 1.00      | 0.86   | 0.92     | 7       |
+| travel_alert       | 1.00      | 1.00   | 1.00     | 5       |
+| travel_suggestion  | 1.00      | 0.88   | 0.93     | 8       |
+| **Micro Avg**      | **0.96**  | **0.96**| **0.96** | **75**  |
+| **Macro Avg**      | **0.98**  | **0.96**| **0.96** | **75**  |
+| **Weighted Avg**   | **0.96**  | **0.96**| **0.96** | **75**  |
+
+Average inference time: 0.1693 seconds.
+
 ## Finetuning and training of a bert classifier model
+Finally I tried to train a bert classifier with a linear layer on the top of it to correctly classify out classes of interests. 
+
+Here are the training plots for the following command (trained on google Colab GPU); details can be found in *./notebooks/train_bert.ipynb*
+
+```bash
+python train.py --model_name bert-base-uncased --json_path data/data_full.json --epochs 500 --lr 2e-4 --batch_size 32 --patience 50
+```
+
+![alt text](/img/loss_accuracy.jpg)
+
+And here are the classification report from the validation dataset after the training
+
+![alt text](/img/report_val.jpg)
+
+
+
 # REFERENCES
 
 [1] https://arxiv.org/pdf/1909.02027v1.pdf
