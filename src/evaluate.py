@@ -6,6 +6,10 @@ from src.dataset import BertDataset
 from src.models import BERTClassifier
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from sklearn.metrics import classification_report
+import logging
+import warnings
+warnings.filterwarnings('ignore')
+logging.basicConfig(level=logging.INFO)
 
 def postprocess(label: str):
     """
@@ -87,8 +91,9 @@ def evaluate_csv(csv, tokenizer, model):
 
     report = classification_report(actual_labels, predictions)
     avg_inference_time = sum(inference_times) / len(inference_times)
+    logging.info("Below is the classification report :")
     print(report)
-    print(f"Average inference time: {avg_inference_time:.4f} seconds")
+    logging.info(f"Average inference time: {avg_inference_time:.4f} seconds.")
 
 
 if __name__ == '__main__':

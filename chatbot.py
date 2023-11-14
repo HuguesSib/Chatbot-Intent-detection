@@ -9,19 +9,25 @@ from src.evaluate import evaluate_csv, get_output
 
 import time
 from src.init import Options
+import logging
+import warnings
+warnings.filterwarnings('ignore')
+logging.basicConfig(level=logging.INFO)
 
 def chatbot(tokenizer, model):
     """
     Implements a simple chatbot that uses a pre-trained BERT model to predict the intent of a user's message.
     """
 
-    print("Welcome to the chatbot !")
+    print('\n==================================================')
+    print("\t\tBienvenue sur le chatbot d'Illuin!")
     while True:
-        print("\n- Illuin BOT : Please enter your message :")
+        print("\n- Illuin BOT: \tVeuillez entrer votre demande :")
         try:
-            prompt = input("- USER : ")
+            prompt = input("- VOUS:\t\t")
         except KeyboardInterrupt:
-            print("\n- Illuin BOT : Bye !")
+            print("\n- Illuin BOT: \tAu revoir!")
+            print('==================================================')
             break
 
         start_time = time.time()
@@ -32,12 +38,12 @@ def chatbot(tokenizer, model):
         end_time = time.time()
         response_time = end_time - start_time
 
-        print('- Illuin BOT : The intent is :', string_label)
+        print('- Illuin BOT: \tVotre demande concerne :', string_label)
 
         if string_label == 'lost_luggage':
-            print('- Illuin BOT : Vous avez perdu vos bagages ? Je vous redirige vers un agent ! (Notez que ce service vous sera facturé)')
+            print('- Illuin BOT: \tVous avez perdu vos bagages ? Je vous redirige vers un agent ! (Notez que ce service vous sera facturé)')
         
-        print(f'- Illuin BOT : Response time: {response_time:.2f} seconds')
+        print(f'- Illuin BOT: \tTemps de reponse {response_time:.2f} secondes')
 
 if __name__ == "__main__":
     opt = Options().parse()
@@ -60,7 +66,9 @@ if __name__ == "__main__":
         model = AutoModelForSequenceClassification.from_pretrained(opt.model_name)
     
     if opt.eval:
+        logging.info(f"Evaluating {opt.model_name} on test data : {opt.csv_path}...")
         evaluate_csv(opt.csv_path, tokenizer, model)
     else:
+        logging.info("Starting chatbot...")
         chatbot(tokenizer, model)
     

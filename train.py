@@ -7,6 +7,9 @@ from src.dataset import BertDataset, CLNIC150, CLASSES_OF_INTEREST
 from src.models import BERTClassifier
 from src.init import Options
 import matplotlib.pyplot as plt
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 def train(model, train_dataset, val_dataset, device, 
         batch_size, epochs, lr, patience, plot=True):
@@ -14,7 +17,6 @@ def train(model, train_dataset, val_dataset, device,
     """
     Trains a PyTorch model on a given training dataset and evaluates it on a validation dataset.
     """
-
     # Set up optimizer and loss function
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     criterion = nn.CrossEntropyLoss()
@@ -56,7 +58,6 @@ def train(model, train_dataset, val_dataset, device,
 
             avg_train_loss = train_loss/(len(train_loader.dataset)/batch_size)
             avg_train_acc = train_acc/(len(train_loader.dataset)/batch_size)
-
         train_losses.append(avg_train_loss)
         train_accuracies.append(avg_train_acc)
 
@@ -83,28 +84,32 @@ def train(model, train_dataset, val_dataset, device,
 
                 avg_val_loss = val_loss/(len(val_loader.dataset)/batch_size)
                 avg_val_acc = val_acc/(len(val_loader.dataset)/batch_size)
-
         val_losses.append(avg_val_loss)
         val_accuracies.append(avg_val_acc)
-        print(f'Epoch {epoch+1}/{epochs}: Train Loss: {avg_train_loss:.4f}, Train Acc: {avg_train_acc:.4f}, Val Loss: {avg_val_loss:.4f}, Val Acc: {avg_val_acc:.4f}')
+
+        logging.info(f'Epoch {epoch+1}/{epochs}: Train Loss: {avg_train_loss:.4f}, Train Acc: {avg_train_acc:.4f}, Val Loss: {avg_val_loss:.4f}, Val Acc: {avg_val_acc:.4f}')
         
         # Check if early stopping conditions are met
         if val_loss < best_val_loss:
             best_val_loss = val_loss
+            logging.info(f'Validation loss decreased ({best_val_loss:.6f} --> {val_loss:.6f}).  Saving model ...')
             torch.save(model.state_dict(), 'best_model.pt')
             counter = 0
         else:
             counter += 1
             if counter >= patience:
-                print('Early stopping triggered.')
+                logging.info('Early stopping triggered.')
                 epochs = epoch +1
                 break
+    logging.info('Training complete.')
 
     if plot:
         # Print classification report
+        logging.info('Classification report:')
         print(classification_report(val_labels, val_preds))
 
         # Plot training and validation metrics
+        logging.info('Plotting training history...')
         plt.figure(figsize=(12, 4))
         plt.subplot(1, 2, 1)
         plt.plot(range(epochs), train_losses, label='Train Loss')
@@ -128,7 +133,6 @@ def pipeline_clinc(path_to_json, model_name, num_classes, batch_size, epochs,
     Trains a BERT model on the CLINC150 dataset.
     """
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f'Using device: {device}')
 
     clinc_train = CLNIC150(path_to_json, set= 'train')
     x_train, y_train = clinc_train._get_classes_of_interest(classes_of_interest= CLASSES_OF_INTEREST)
@@ -143,6 +147,7 @@ def pipeline_clinc(path_to_json, model_name, num_classes, batch_size, epochs,
 
     model = BERTClassifier(model_name, num_classes= num_classes).to(device)
 
+    logging.info(f'Training {model_name} on {device}...')
     train(model,
         train_dataset, val_dataset, device,
         batch_size, epochs, lr, patience)
