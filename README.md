@@ -3,12 +3,12 @@
     * [Description](#description)
     * [Data](#data)
 * [Instructions](#instructions)
-    * [Requirements](#requirements)
     * [Architecture](#architecture)
     * [Run the project](#run-the-project)
+       * [Clone the Project]   
 * [Results](#results)
 * [References](#references)
-* 
+  
 # Getting Started
 
 ## Description
@@ -30,23 +30,9 @@ Some things are still to be considered:
   - For evaluation the class _lost_luggage_
     
 # Instructions 
-## Requirements
-
-<pre>
-python==3.7.1
-argparse==1.4.0
-transformers==4.30.2
-torch==1.13.1
-pandas==1.3.5
-json==2.0.9
-sklearn==0.0
-matplotlib==3.0.2
-googletrans==3.1.0a0
-langdetect==1.0.9
-</pre>
 
 ## Architecture 
-<pre>
+```bash
 Chatbot-Intent-detection/
 ┣ data/                         --different .json dataset of CLINC
 ┃ ┣ data_full.json            
@@ -65,12 +51,54 @@ Chatbot-Intent-detection/
 ┣ chatbot.py                    --script to run the chatbot or evaluation
 ┣ README.md
 ┗ train.py                      --script to train a finetuned model
-</pre>
-
+```
 ## Run the project
+### Clone the project 
+```bash
+git clone https://github.com/HuguesSib/Chatbot-Intent-detection.git
+cd Chatbot-Intent-detection
+```
+### Install requirements 
+```bash
+conda env create -f environment.yml
+conda activate chatbot
+```
+
+### Download dataset [OPTIONAL]
+If needed install json dataset and put it in the ./data folder. 
+Some dataset from the CLINC150 are already present and were download from https://github.com/clinc/oos-eval/tree/master/data
+
+### Run Chatbot 
+To see the optional parameter to run the CLI please run
+```bash
+python chatbot.py -h
+```
+If you want to run the chatbot with a given model 
+
+```bash
+python chatbot.py --model_name {name}
+```
+### Evaluation on a CSV file
+To evaluate how good the chatbot perform with a given model use 
+```bash
+python chatbot.py --eval --model_name {name}
+```
+This will print the classification report from the model and the average inference time. 
+
+### Train a BertClassifier [to be improved]
+If you have a GPU you can train your finetuned bert classifier, consisting of a pre-trained bert encoding part and a linear layer to classify the outputs.
+
+You can see the parameters with 
+```bash
+python train.py -h
+```
+and train it. 
+```bash
+python train.py --epochs 50 --batch_size 32 --lr 2e-4
+```
 
 # Results
-## Comparison of different pretrained BERT model on CLINC dataset
+## Comparison of different pre-trained BERT model on the CLINC dataset
 
 | Model Name | Precision | Recall | 
 | -------- | -------- | -------- |
