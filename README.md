@@ -5,7 +5,12 @@
 * [Instructions](#instructions)
     * [Architecture](#architecture)
     * [Run the project](#run-the-project)
-       * [Clone the Project]   
+       * [Clone the Project](#clone-the-project)
+       * [Install Requirements](#install-requirements)
+       * [Download dataset](#download-dataset-optional)
+       * [Run Chatbot](#run-chatbot)
+       * [Evaluation on a CSV](#evaluation-on-a-csv-file)
+       * [Training](#train-a-bertclassifier-to-be-improved)
 * [Results](#results)
 * [References](#references)
   
