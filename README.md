@@ -48,29 +48,36 @@ langdetect==1.0.9
 ## Architecture 
 <pre>
 Chatbot-Intent-detection/
-┣ data/
-┃ ┣ data_full.json
+┣ data/                         --different .json dataset of CLINC
+┃ ┣ data_full.json            
 ┃ ┣ data_oos_plus.json
 ┃ ┣ data_small.json
-┃ ┣ intent-detection-train.csv
+┃ ┣ intent-detection-train.csv  --test samples to evaluate the model
 ┣ notebooks/
 ┃ ┣ data_exploration.ipynb
 ┃ ┗ train_bert.ipynb
 ┣ src/
-┃ ┣ dataset.py
-┃ ┣ evaluate.py
-┃ ┣ init.py
-┃ ┗ models.py
+┃ ┣ dataset.py                  --create datasets and preprocess
+┃ ┣ evaluate.py                 --evaluation of a model given a csv  
+┃ ┣ init.py                     --arguments init for CLI
+┃ ┗ models.py                   --bert classifier class
 ┣ .gitignore
-┣ chatbot.py
+┣ chatbot.py                    --script to run the chatbot or evaluation
 ┣ README.md
-┗ train.py
+┗ train.py                      --script to train a finetuned model
 </pre>
 
 ## Run the project
 
 # Results
+## Comparison of different pretrained BERT model on CLINC dataset
 
+| Model Name | Precision | Recall | 
+| -------- | -------- | -------- |
+| Row 1, Column 1 | Row 1, Column 2 | Row 1, Column 3 |
+| Row 2, Column 1 | Row 2, Column 2 | Row 2, Column 3 |
+| Row 3, Column 1 | Row 3, Column 2 | Row 3, Column 3 |
+## Finetuning and training of a bert classifier model
 # REFERENCES
 
 [1] https://arxiv.org/pdf/1909.02027v1.pdf
