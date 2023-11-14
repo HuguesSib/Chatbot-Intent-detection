@@ -1,6 +1,9 @@
 import argparse
 
 class Options():
+    """
+    Class that defines the options for the project.
+    """
     def __init__(self):
         self.initialized = False
 
@@ -12,9 +15,10 @@ class Options():
                         help="Pretrained model to use", 
                         default= 'lewtun/roberta-large-finetuned-clinc')
                         #transformersbook/bert-base-uncased-finetuned-clinc
-
+                        #transformersbook/distilbert-base-uncased-distilled-clinc
+    
         parser.add_argument("--eval", action="store_true", 
-                            help="Evaluate the model on a dataset")
+                            help="Evaluate the model on a csv dataset")
         
         parser.add_argument("--csv_path", type=str, 
                             help="Path to the csv file to evaluate the model on", 

@@ -11,6 +11,10 @@ import time
 from src.init import Options
 
 def chatbot(tokenizer, model):
+    """
+    Implements a simple chatbot that uses a pre-trained BERT model to predict the intent of a user's message.
+    """
+
     print("Welcome to the chatbot !")
     while True:
         print("\n- Illuin BOT : Please enter your message :")
@@ -38,10 +42,20 @@ def chatbot(tokenizer, model):
 if __name__ == "__main__":
     opt = Options().parse()
 
-    if opt.model_name == 'bert-base-uncased' and opt.finetuned:
-        tokenizer = BertTokenizer.from_pretrained(opt.model_name)
+    if opt.finetuned:
+        #For trained model BERTClassifier locally (need a {model}.pt file)
+        #model_name is the pretrained encoding part of the model --> only trained with 'bert-base-uncased'
+        #TODO : Train another model with finetuned encoder on clinc dataset
+
+        tokenizer = AutoTokenizer.from_pretrained(opt.model_name)
         model = BERTClassifier(opt.model_name, num_classes= opt.num_classes, freeze_bert = True)
     else:
+        #For pretrained model doing Sequence Classification from HuggingFace (no need to train)
+        #model_name is the pretrained model
+        #tried : 'bert-base-uncased-finetuned-clinc' (from transformersbook)
+        #        'distilbert-base-uncased-distilled-clinc' (from transformersbook)
+        #        'lewtun/roberta-large-finetuned-clinc' (from lewtun)
+        
         tokenizer = AutoTokenizer.from_pretrained(opt.model_name)
         model = AutoModelForSequenceClassification.from_pretrained(opt.model_name)
     

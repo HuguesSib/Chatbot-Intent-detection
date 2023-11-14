@@ -10,6 +10,11 @@ import matplotlib.pyplot as plt
 
 def train(model, train_dataset, val_dataset, device, 
         batch_size, epochs, lr, patience, plot=True):
+    
+    """
+    Trains a PyTorch model on a given training dataset and evaluates it on a validation dataset.
+    """
+
     # Set up optimizer and loss function
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     criterion = nn.CrossEntropyLoss()
@@ -117,9 +122,11 @@ def train(model, train_dataset, val_dataset, device,
 
         plt.show()
 
-def pipeline(path_to_json, model_name, num_classes, batch_size, epochs,
+def pipeline_clinc(path_to_json, model_name, num_classes, batch_size, epochs,
             lr, patience):
-    
+    """
+    Trains a BERT model on the CLINC150 dataset.
+    """
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f'Using device: {device}')
 
@@ -144,7 +151,7 @@ def pipeline(path_to_json, model_name, num_classes, batch_size, epochs,
 if __name__ == "__main__":
     opt = Options().parse()
 
-    pipeline(opt.json_path, 
+    pipeline_clinc(opt.json_path, 
             opt.model_name, 
             opt.num_classes, 
             opt.batch_size, 

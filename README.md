@@ -17,6 +17,9 @@ The different classes are the following
 
 A csv file was given with some examples (in french) of some prompts and their classes. Below is a distribution of this dataset. 
 
-![Alt text](image.png)
+![alt text](/img/class_distib.png)
+
+This set of prompt is too small to train a model on. We need to find a bigger model for this task. 
+
 
 
