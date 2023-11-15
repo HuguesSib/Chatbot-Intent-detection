@@ -19,7 +19,7 @@
 ## Description
 
 This project aims to create a chatbot that detects the intention of an input verbatim (prompt) for specific classes and in the presence of 'out of scope' prompts. The latter is output when the prompts don't belong to any given classes. 
-The Chatbot uses models pre-trained on a common intent detection dataset: CLINC150 Introduced by Larson et al. in *An Evaluation Dataset for Intent Classification and Out-of-Scope Prediction* [1]
+The Chatbot uses models pre-trained on a common intent detection dataset: CLINC150 Introduced by Larson et al. in this paper[[1](#references)]
 
 Below is a snapshot of a conversation with the chatbot on few questions and in different languages.
 
@@ -41,8 +41,8 @@ A CSV file was given with 75 examples (in French) of some prompts and their resp
 This set of prompts is too small to train a model on. A common dataset for intent classification tasks is CLINC150, especially since the classes in the CSV are also present in this dataset and it was thought to handle 'out-of-scopes' scenarios.
 
 Some things are still to be considered: 
-  - CLINC150 contains 150 in-scope intents, but we only consider 8. The others need to be classified as out-of-scope.
-  - CLINC150 is in English, therefore a translation on the fly is chosen to be able to prompt in French and any other language.
+  - CLINC150 contains 150 in-scope intents, but we only consider 8. The others need to be classified as out-of-scope. 
+  - CLINC150 is in English, therefore a translation on the fly is chosen to be able to prompt in French and any other language.The translation is done with Google Translate free API accessible through the library [*googletrans*](https://pypi.org/project/googletrans/)
   - For evaluation, the class _lost_luggage_ needs to have a low number of False Positive (High Precision). 
     
 # Instructions 
@@ -117,11 +117,11 @@ python train.py --epochs 50 --batch_size 32 --lr 2e-4
 ## Comparison of different pre-trained BERT model on the CLINC dataset
 Here is an over view of the results from the different pretrained model.
 
-| Model Name                              | Avg Precision | Avg Recall | Avg F1-Score | Precision on Lost Luggage | Inference Time (s) |
-|-----------------------------------------|---------------|------------|--------------|---------------------------|---------------------|
-| bert-base-uncased-finetuned-clinc       | 0.96          | 0.96       | 0.96         | 0.88                      | 0.3706              |
-| roberta-large-finetuned-clinc           | 0.95          | 0.95       | 0.95         | 1.00                      | 1.2057              |
-| distilbert-base-uncased-distilled-clinc | 0.96          | 0.96       | 0.96         | 0.88                      | 0.1693              |
+| Model Name                                                | Avg Precision | Avg Recall | Avg F1-Score | Precision on Lost Luggage | Inference Time (s) |
+|-----------------------------------------|-----------------|------------|--------------|---------------------------|---------------------|
+| bert-base-uncased-finetuned-clinc [[2](#references)]      | 0.96          | 0.96       | 0.96         | 0.88                      | 0.3706              |
+| roberta-large-finetuned-clinc [[3](#references)]          | 0.95          | 0.95       | 0.95         | 1.00                      | 1.2057              |
+| distilbert-base-uncased-distilled-clinc [[4](#references)] | 0.96          | 0.96       | 0.96         | 0.88                      | 0.1693              |
 
 And below are the details of the classification report for each model. 
 
@@ -201,7 +201,15 @@ And here are the classification report from the validation dataset after the tra
 
 # REFERENCES
 
-[1] https://arxiv.org/pdf/1909.02027v1.pdf
+[1] [Larson, et al. (2019). An Evaluation Dataset for Intent Classification and Out-of-Scope Prediction.](https://arxiv.org/pdf/1909.02027v1.pdf)
+
+[2] [bert-base-uncased finetuned model](https://huggingface.co/transformersbook/bert-base-uncased-finetuned-clinc)
+
+[3] [Liu, et al. (2019). RoBERTa: A Robustly Optimized BERT Pretraining Approach. Submitted on 26 Jul 2019.](https://arxiv.org/pdf/1907.11692.pdf)
+
+[4] [Sanh, V., et al. (2020). DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter.](https://arxiv.org/pdf/1910.01108.pdf)
+
+
 
 
 
