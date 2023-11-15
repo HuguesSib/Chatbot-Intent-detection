@@ -12,6 +12,7 @@
        * [Evaluation on a CSV](#evaluation-on-a-csv-file)
        * [Training](#train-a-bertclassifier-to-be-improved)
 * [Results](#results)
+* [Conclusion](#conclusion)
 * [References](#references)
   
 # Getting Started
@@ -182,10 +183,10 @@ Average inference time: 1.2057 seconds.
 
 Average inference time: 0.1693 seconds.
 
-## Finetuning and training of a bert classifier model
-Finally I tried to train a bert classifier with a linear layer on the top of it to correctly classify out classes of interests. 
+## Finetuning and training of a Bert classifier model
+Finally, I tried to train a Bert classifier with a linear layer on top of it to classify out classes of interests correctly. 
 
-Here are the training plots for the following command (trained on google Colab GPU); details can be found in *./notebooks/train_bert.ipynb*
+Here are the training plots for the following command (trained on Google Colab GPU); details can be found in *./notebooks/train_bert.ipynb*
 
 ```bash
 python train.py --model_name bert-base-uncased --json_path data/data_full.json --epochs 500 --lr 2e-4 --batch_size 32 --patience 50
@@ -193,11 +194,19 @@ python train.py --model_name bert-base-uncased --json_path data/data_full.json -
 
 ![alt text](/img/loss_accuracy.jpg)
 
-And here are the classification report from the validation dataset after the training
+Here are the classification report from the validation dataset after the training
 
 ![alt text](/img/report_val.jpg)
 
+Unfortunately, the inference on this trained model didn't work well due to a lack of time. This is to be improved. 
 
+# Conclusion
+
+With this work, we were able to create a chatbot that gives prompt intention to a user. Different metrics such as recall, precision, and inference time allowed us to compare different pre-trained models on the CLINC dataset to our specific case. Also, a pipeline to train your own finetuned model from a BERT classifier was done. 
+
+The requirement was to have a high precision to the class *lost_luggage* which is achieved perfectly on the test set by the model RoBERTa. However, it also has the highest inference time, ~1.2s/inference. It is still reasonable as we don't want false positives in this class. 
+
+Finally even if the training pipeline worked and is ready for further tests, the inference for those models is not perfectly implemented and might not work as expected.
 
 # REFERENCES
 
