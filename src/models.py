@@ -1,5 +1,7 @@
 from torch import nn
 from transformers import BertModel, AutoModelForSequenceClassification
+import warnings
+warnings.filterwarnings('ignore')
 
 class BERTClassifier(nn.Module):
     """

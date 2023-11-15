@@ -14,35 +14,28 @@ import warnings
 warnings.filterwarnings('ignore')
 logging.basicConfig(level=logging.INFO)
 
+import time
+from src.dataset import BertDataset
+from src.evaluate import get_output
 def chatbot(tokenizer, model):
-    """
-    Implements a simple chatbot that uses a pre-trained BERT model to predict the intent of a user's message.
-    """
-
-    print('\n==================================================')
-    print("\t\tBienvenue sur le chatbot d'Illuin!")
+    print('\n==================================================\n\tBienvenue sur le chatbot d\'Illuin!')
     while True:
-        print("\n- Illuin BOT: \tVeuillez entrer votre demande :")
         try:
-            prompt = input("- VOUS:\t\t")
+            prompt = input("\n- Illuin BOT: \tVeuillez entrer votre demande :\n- VOUS:\t\t")
         except KeyboardInterrupt:
-            print("\n- Illuin BOT: \tAu revoir!")
-            print('==================================================')
+            print("\n- Illuin BOT: \tAu revoir!\n==================================================")
             break
-
+        if prompt.lower() == 'exit':
+            print("\n- Illuin BOT: \tAu revoir!\n==================================================")
+            break
         start_time = time.time()
-
         inputs = BertDataset([prompt], [''], tokenizer, max_length=128)
         string_label = get_output(inputs, model)
-
         end_time = time.time()
         response_time = end_time - start_time
-
-        print('- Illuin BOT: \tVotre demande concerne :', string_label)
-
+        print(f'- Illuin BOT: \tVotre demande concerne : {string_label}')
         if string_label == 'lost_luggage':
             print('- Illuin BOT: \tVous avez perdu vos bagages ? Je vous redirige vers un agent ! (Notez que ce service vous sera facturé)')
-        
         print(f'- Illuin BOT: \tTemps de reponse {response_time:.2f} secondes')
 
 if __name__ == "__main__":

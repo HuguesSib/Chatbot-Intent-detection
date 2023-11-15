@@ -5,7 +5,8 @@ from torch.utils.data import Dataset
 import string
 from googletrans import Translator
 from langdetect import detect
-
+import warnings
+warnings.filterwarnings('ignore')
 
 CLASSES_OF_INTEREST = [
     'translate',

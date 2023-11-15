@@ -21,6 +21,17 @@
 This project aims to create a chatbot that detects the intention of an input verbatim (prompt) for specific classes and in the presence of 'out of scope' prompts. The latter is output when the prompts don't belong to any given classes. 
 The Chatbot uses models pre-trained on a common intent detection dataset: CLINC150 Introduced by Larson et al. in *An Evaluation Dataset for Intent Classification and Out-of-Scope Prediction* [1]
 
+Below is a snapshot of a conversation with the chatbot on few questions and in different languages.
+
+![alt text](/img/chatbot.png)
+
+*Note:* 
+|Original| Translation|
+|-|-|
+| kan jag boka ett flyg till Paris imorgon? | can i book a flight to paris tomorrow    |
+| 高中毕业有什么好处                         | What are the benefits of graduating from high school?    |
+| 我把我的行李弄丢了                          |  I lost my baggage       |
+
 ## Data 
 
 A CSV file was given with 75 examples (in French) of some prompts and their respective intention. Below is a distribution of this dataset. 

@@ -13,9 +13,10 @@ class Options():
         
         parser.add_argument("--model_name", type=str, 
                         help="Pretrained model to use", 
-                        default= 'lewtun/roberta-large-finetuned-clinc')
+                        default= 'transformersbook/distilbert-base-uncased-distilled-clinc')
                         #transformersbook/bert-base-uncased-finetuned-clinc
                         #transformersbook/distilbert-base-uncased-distilled-clinc
+                        #lewtun/roberta-large-finetuned-clinc
     
         parser.add_argument("--eval", action="store_true", 
                             help="Evaluate the model on a csv dataset")
